@@ -1,0 +1,42 @@
+[project]
+name = "testflight-watcher"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "lxml>=6.0.1",
+    "requests>=2.32.5",
+]
+
+[tool.ruff.lint]
+ignore = [
+    "PLR0911", #         Too many return statements (>6)
+    "PLR0913", #         Too many arguments to function call (>5)
+    "RUF001",  #          Cyrylilic unicode letters in strings
+    "RUF002",  #          Cyrylilic unicode letters in docstrings
+    "RUF003",  #          Cyrylilic unicode letters in comments
+    "PLR2004", #         Magic value used in comparison
+    "E501",    #            Line too long
+    "RUF012",  #            Mutable class attributes should be annotated with `typing.ClassVar`
+    "COM812",
+]
+
+select = [
+    "UP",  #              pyupgrade           https://docs.astral.sh/ruff/rules/#pyupgrade-up
+    "Q",   #               flake8-quotes       https://docs.astral.sh/ruff/rules/#flake8-quotes-q
+    "W",   #               pycodestyle         https://docs.astral.sh/ruff/rules/#warning-w
+    "C90", #             mccabe              https://docs.astral.sh/ruff/rules/#mccabe-c90
+    "COM", #             flake8-commas       https://docs.astral.sh/ruff/rules/#flake8-commas-com
+    #    "E", #               pycodestyle         https://docs.astral.sh/ruff/rules/#error-e
+    #    "PL", #              pylint              https://docs.astral.sh/ruff/rules/#pylint-pl
+    "F", #               pyflakes            https://docs.astral.sh/ruff/rules/#pyflakes-f
+    #    "DJ", #              flake8-django       https://docs.astral.sh/ruff/rules/#flake8-django-dj
+    #    "I", #               isort               https://docs.astral.sh/ruff/rules/#isort-i
+    "RUF", #             Ruff-specific rules https://docs.astral.sh/ruff/rules/#ruff-specific-rules-ruf
+    #    "PT", #              flake8-pytest-style https://docs.astral.sh/ruff/rules/#flake8-pytest-style-pt
+    #    "T20", #             flake8-print        https://docs.astral.sh/ruff/rules/#flake8-print-t20
+    #    "SLF", #             flake8-self         https://docs.astral.sh/ruff/rules/#flake8-self-slf
+    #    "PTH", #             flake8-use-pathlib  https://docs.astral.sh/ruff/rules/#flake8-use-pathlib-pth
+    "I",
+]
