@@ -32,6 +32,8 @@ def watch(
         free_slots = page.xpath(XPATH_STATUS)[0] not in FULL_TEXTS
         if tf_id not in data or data[tf_id] != free_slots:
             if free_slots or notify_full:
-                title = re.findall(TITLE_REGEX, page.xpath(XPATH_TITLE)[0])[0]
+                page_title = page.xpath(XPATH_TITLE)
+                title_match = re.search(TITLE_REGEX, page_title[0]) if page_title else None
+                title = title_match.group(1) if title_match else tf_id
                 callback(tf_id, free_slots, title)
             data[tf_id] = free_slots
