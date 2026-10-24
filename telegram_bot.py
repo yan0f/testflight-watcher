@@ -1,4 +1,5 @@
 import sys
+from html import escape
 
 import requests
 
@@ -10,14 +11,14 @@ BOT_TOKEN = ""
 BOT_URL = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
 MSG_NO_FULL = "TestFlight slots for <b>{}</b> beta are now available! \
-<a href='{}'>Download now</a>"
+<a href='{}'>Download now</a>\nStatus: <code>{}</code>"
 MSG_FULL = "<b>{}</b> beta program on TestFlight is now full"
 
 
-def send_notification(tf_id, free_slots, title):
+def send_notification(tf_id, free_slots, title, status):
     dl_url = testflight_watcher.TESTFLIGHT_URL.format(tf_id)
     if free_slots:
-        message = MSG_NO_FULL.format(title, dl_url)
+        message = MSG_NO_FULL.format(escape(title), escape(dl_url), escape(status))
         print(
             requests.get(
                 BOT_URL,
