@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import logging
 import re
 from collections.abc import Callable
 
@@ -13,7 +14,9 @@ TESTFLIGHT_URL = "https://testflight.apple.com/join/{}"
 FULL_TEXTS = [
     "This beta is full.",
     "This beta isn't accepting any new testers right now.",
+    "このベータ版は、現在新規テスターを受け付けていません。",
 ]
+OPEN_STATUS_PREFIX = "To join the "
 
 
 def watch(
@@ -26,11 +29,18 @@ def watch(
     for tf_id in watch_ids:
         req = requests.get(
             TESTFLIGHT_URL.format(tf_id),
+            params={"l": "en"},
             headers={"Accept-Language": "en-us"},
         )
         page = html.fromstring(req.text)
         status = " ".join(page.xpath(XPATH_STATUS)[0].text_content().split())
-        free_slots = status not in FULL_TEXTS
+        if status in FULL_TEXTS:
+            free_slots = False
+        elif status.startswith(OPEN_STATUS_PREFIX):
+            free_slots = True
+        else:
+            logging.warning("Unrecognized TestFlight status for %s: %r", tf_id, status)
+            continue
         if tf_id not in data or data[tf_id] != free_slots:
             if free_slots or notify_full:
                 page_title = page.xpath(XPATH_TITLE)
